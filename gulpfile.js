@@ -99,6 +99,9 @@ function build_fonts()
 
 function build_images()
 {
+    gulp.src( [ `${PATHs.SRC_IMAGES}*.svg` ] )
+        .pipe( gulp.dest( PATHs.DEST_IMAGES ) );
+    
     return gulp.src( [ `${PATHs.SRC_IMAGES}*` ] )
         .pipe( gulp.dest( PATHs.DEST_IMAGES ) );
     
@@ -136,33 +139,35 @@ function build_sprites_png()
 
 function build_sprites_svg()
 {
-    //*
     return gulp.src( `${PATHs.SRC_SPRITES_SVG}*.svg` )
         .pipe(svg_sprite({
                 mode:
                 {
                     stack:
                     {
-                        sprite: "../sprite.svg"  //sprite file name
+                        sprite: "../sprite.svg"
                     },
                     //view: true,
                     example: true
                 }
             }
         ))
-        .pipe( gulp.dest( PATHs.DEST_IMAGES ) );//*/
+        .pipe( gulp.dest( PATHs.DEST_IMAGES ) );
     
-} // build_sprites_svg
+}
 
 
 function build_sass()
 {
     del( [ `${PATHs.DEST_CSS}*.css`, `!${PATHs.DEST_CSS}` ] );
 
+    gulp.src( [ `${PATHs.SRC_SCSS}*.css` ] )
+        .pipe( gulp.dest( PATHs.DEST_CSS ) );
+    
     return gulp.src( [ `${PATHs.SRC_SCSS}main.scss` ] )
-      .pipe( sass_glob() )
-      .pipe( gulp_sass() )
-      .pipe( gulp.dest( PATHs.DEST_CSS ) );
+        .pipe( sass_glob() )
+        .pipe( gulp_sass() )
+        .pipe( gulp.dest( PATHs.DEST_CSS ) );
     
 } // build_sass
 
@@ -171,7 +176,7 @@ function gulp_server()
 {
     gulp.src( `./${PATHs.DEST_HTML}` )
         .pipe(webserver({
-            livereload: false,
+            livereload: true,
             open: true,
         }));
 
